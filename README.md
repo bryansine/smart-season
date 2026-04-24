@@ -1,13 +1,9 @@
 # SmartSeason: Agricultural Field Monitoring System
 
-**Technical Assessment - Shamba Records**
-**Developer:** Bryan "Sine"
-**Status:** Feature Complete (Role-Based Access Control + Field Management)
-
-## 📌 Overview
+## Overview
 SmartSeason is a streamlined AgTech solution designed to manage field observations between **Coordinators** and **Field Agents**. It moves away from generic marketplace structures to focus on data-driven agricultural monitoring.
 
-## 🚀 Core Features
+## Core Features
 - **Dual-Role RBAC:** Distinct dashboards and permissions for Coordinators (Admins) and Field Agents.
 - **Dynamic Field Tracking:** Coordinators register fields (Location, Crop, Agent); Agents submit real-time status updates.
 - **"At Risk" Logic:** Automated color-coded indicators for fields requiring immediate attention based on status updates. eg Fields are marked 'At Risk' when flagged   manually by an agent or if no updates are recorded within a 14-day window.
@@ -17,13 +13,7 @@ SmartSeason is a streamlined AgTech solution designed to manage field observatio
 - **Backend:** Django 5.x (Python 3.12)
 - **Database:** SQLite (Development) / PostgreSQL compatible
 - **Frontend:** HTML5, CSS3, JavaScript (Vanilla)
-- **Environment:** Ubuntu Linux (Terminal-optimized)
-
-## 💳 Payment Integration (M-Pesa Production Workflow)
-While the current version uses a simplified check, the system is architected for a **Live Production Workflow**:
-1. **Initiation:** Trigger STK Push to the user's handset.
-2. **Asynchronous Callback:** A dedicated Django endpoint processes the M-Pesa `ResultCode`.
-3. **State Sync:** Using unique `CheckoutRequestID` to ensure the correct order status is updated without user intervention.
+- **Environment:** Ubuntu Linux 
 
 ## 📦 Installation
 1. Clone the repository.
