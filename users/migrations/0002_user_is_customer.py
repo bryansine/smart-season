@@ -1,0 +1,17 @@
+
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('users', '0001_initial'),
+    ]
+
+    operations = [
+        migrations.AddField(
+            model_name='user',
+            name='is_customer',
+            field=models.BooleanField(default=True, help_text='Designates whether this user should be treated as a customer (buyer).'),
+        ),
+    ]

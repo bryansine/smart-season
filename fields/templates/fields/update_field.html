@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Update Field: {{ field.name }}</h4>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">Currently at stage: <strong>{{ field.get_current_stage_display }}</strong></p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Submit Observation</button>
+                            <a href="{% url 'fields:dashboard' %}" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h5>Recent Observations</h5>
+                {% for update in field.updates.all|slice:":3" %}
+                <div class="card mb-2 bg-light">
+                    <div class="card-body py-2">
+                        <small class="text-primary">{{ update.created_at|date:"M d, Y" }}</small>
+                        <p class="mb-0"><strong>{{ update.get_stage_display }}:</strong> {{ update.notes }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted small">No previous updates recorded.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

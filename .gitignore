@@ -1,0 +1,11 @@
+venv/
+*.pyc
+*.pyo
+__pycache__/
+db.sqlite3
+media/
+
+node_modules/
+npm-debug.log
+
+*.env.DS_Store

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Field Agent Dashboard - SmartSeason{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="mb-4">
+        <h2 class="text-dark">Field Agent Dashboard</h2>
+        <p class="text-muted">Assigned Monitoring Tasks for {{ user.username|title }}</p>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-success text-white shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="text-uppercase small fw-bold">My Active Fields</h5>
+                    <h3 class="display-6 fw-bold mb-0">{{ active_count }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-danger text-white shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="text-uppercase small fw-bold">Require Attention</h5>
+                    <h3 class="display-6 fw-bold mb-0">{{ at_risk_count }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-dark text-white shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="text-uppercase small fw-bold">Finished</h5>
+                    <h3 class="display-6 fw-bold mb-0">{{ completed_count }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 text-dark">My Assigned Field Units</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light text-uppercase small fw-bold">
+                        <tr>
+                            <th class="ps-3">Field Name</th>
+                            <th>Stage</th>
+                            <th>Status</th>
+                            <th class="text-end pe-3">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for field in fields %}
+                        <tr>
+                            <td class="ps-3 fw-bold">{{ field.name }}</td>
+                            <td>{{ field.get_current_stage_display }}</td>
+                            <td>
+                                <span class="badge bg-{% if field.computed_status == 'At Risk' %}danger{% elif field.computed_status == 'Completed' %}dark{% else %}success{% endif %}">
+                                    {{ field.computed_status }}
+                                </span>
+                            </td>
+                            <td class="text-end pe-3">
+                                <a href="{% url 'fields:update_field' field.id %}" class="btn btn-sm btn-outline-success">
+                                    Update Status
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="6" class="text-center py-5 text-muted">No fields currently assigned to you.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

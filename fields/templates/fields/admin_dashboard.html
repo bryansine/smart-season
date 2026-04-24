@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Coordinator Dashboard - SmartSeason{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-0 text-dark">Coordinator Dashboard</h2>
+            <p class="text-muted">Monitoring and Field Management Overview</p>
+        </div>
+        <a href="{% url 'fields:create_field' %}" class="btn btn-success shadow-sm">
+            <i class="bi bi-plus-lg"></i> + Add New Field
+        </a>
+    </div>
+    <hr>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="text-uppercase small fw-bold">Total Fields</h5>
+                    <h3 class="display-6 fw-bold mb-0">{{ total_fields }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="text-uppercase small fw-bold">Active</h5>
+                    <h3 class="display-6 fw-bold mb-0">{{ active_count }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="text-uppercase small fw-bold">At Risk</h5>
+                    <h3 class="display-6 fw-bold mb-0">{{ at_risk_count }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-dark text-white shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="text-uppercase small fw-bold">Completed</h5>
+                    <h3 class="display-6 fw-bold mb-0">{{ completed_count }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert {% if at_risk_count > 0 %}alert-warning{% else %}alert-info{% endif %} shadow-sm border-0 d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <span class="me-2">💡</span> <strong>System Insight:</strong> {{ priority_alert }}
+        </div>
+        <div>
+            <span class="badge bg-white text-dark border">Top Crop: {{ top_crop|title }}</span>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 text-dark">Global Field Status Tracking</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light text-uppercase small fw-bold">
+                        <tr>
+                            <th class="ps-3">Field Name</th>
+                            <th>Agent</th>
+                            <th>Crop</th>
+                            <th>Current Stage</th>
+                            <th>System Status</th>
+                            <th class="text-end pe-3">Date Planted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for field in fields %}
+                        <tr>
+                            <td class="ps-3 fw-bold text-success">{{ field.name }}</td>
+                            <td>
+                                {% if field.assigned_agent %}
+                                    <span class="text-dark">{{ field.assigned_agent.username }}</span>
+                                {% else %}
+                                    <span class="text-muted italic">Unassigned</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ field.crop_type }}</td>
+                            <td>
+                                <span class="badge rounded-pill bg-info text-dark">
+                                    {{ field.get_current_stage_display }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-{% if field.computed_status == 'At Risk' %}danger{% elif field.computed_status == 'Completed' %}dark{% else %}success{% endif %}">
+                                    {{ field.computed_status }}
+                                </span>
+                            </td>
+                            <td class="text-end pe-3 text-muted small">
+                                {{ field.planting_date|date:"d M Y" }}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="6" class="text-center py-5 text-muted">No fields registered.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-dark text-white p-3">
+                    <h4 class="mb-0">Create New Monitoring Field</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label font-weight-bold">Field Name</label>
+                                {{ form.name }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Crop Type</label>
+                                {{ form.crop_type }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Planting Date</label>
+                                {{ form.planting_date }}
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Assign Field Agent</label>
+                                {{ form.assigned_agent }}
+                                <small class="text-muted">Only users with the 'Field Agent' role are listed here.</small>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 d-flex justify-content-between">
+                            <a href="{% url 'fields:dashboard' %}" class="btn btn-light">Back to Dashboard</a>
+                            <button type="submit" class="btn btn-primary px-5">Register Field</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Join SmartSeason{% endblock %}
+
+{% block content %}
+<style>
+    .auth-container {
+        max-width: 450px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        border: 1px solid #e9ecef;
+    }
+
+    .auth-title {
+        text-align: center;
+        color: #1b4332;
+        font-size: 24px;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+
+    .auth-subtitle {
+        text-align: center;
+        color: #6c757d;
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2d6a4f;
+        font-size: 14px;
+    }
+
+    .auth-container input, 
+    .auth-container select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        margin-bottom: 20px;
+        transition: border-color 0.2s;
+    }
+
+    .auth-container input:focus {
+        border-color: #74c69d;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(116, 198, 157, 0.1);
+    }
+
+    .btn-auth {
+        width: 100%;
+        background-color: #1b4332;
+        color: #fff;
+        padding: 14px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 8px;
+        border: none;
+        margin-top: 10px;
+        transition: transform 0.1s;
+    }
+
+    .btn-auth:hover {
+        background-color: #2d6a4f;
+        transform: translateY(-1px);
+    }
+
+    .role-hint {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        color: #495057;
+        margin-bottom: 20px;
+        border-left: 4px solid #74c69d;
+    }
+</style>
+
+<div class="auth-container">
+    <h1 class="auth-title">Create Account</h1>
+    <p class="auth-subtitle">Join the SmartSeason Monitoring Network</p>
+
+    <div class="role-hint">
+        <strong>Tip:</strong> Choose <strong>Coordinator</strong> to manage fields, or <strong>Field Agent</strong> to submit status updates.
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <p class="text-danger small">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn-auth">Register</button>
+    </form>
+
+    <div class="text-center mt-4">
+        <p class="small text-muted">Already a member? <a href="{% url 'users:login' %}" class="fw-bold text-success">Sign In</a></p>
+    </div>
+</div>
+{% endblock %}
