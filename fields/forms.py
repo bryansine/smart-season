@@ -26,7 +26,7 @@ class FieldUpdateForm(forms.ModelForm):
         fields = ['stage', 'notes']
         widgets = {
             'stage': forms.Select(attrs={'class': 'form-select'}),
-            'notes': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Describe crop health, pests, or soil moisture...'}),
+            'notes': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Describe the crop health, pests, or soil moisture...'}),
         }
         
 
